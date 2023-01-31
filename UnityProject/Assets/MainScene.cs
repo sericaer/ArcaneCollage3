@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,10 +11,12 @@ public class MainScene : MonoBehaviour
 
     public Tilemap tilemap;
 
+    public List<Building> buildings;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        buildings = new List<Building>();
     }
 
     // Update is called once per frame
@@ -29,11 +32,16 @@ public class MainScene : MonoBehaviour
 
         buildingPlan.confirmLocalEvent.AddListener((pos) =>
         {
-            Destroy(buildingPlan.gameObject);
+            if (buildingPlan.GetComponent<SpriteRenderer>().color == Color.green)
+            {
+                Destroy(buildingPlan.gameObject);
 
-            var building = Instantiate<Building>(buildingPrototype);
-            building.tilemap = tilemap;
-            building.cellPos = pos;
+                var building = Instantiate<Building>(buildingPrototype);
+                building.tilemap = tilemap;
+                building.cellPos = pos;
+
+                buildings.Add(building);
+            }
         });
     }
 }

@@ -15,7 +15,7 @@ public class BuildingPlan : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.color = Color.green;
+        spriteRenderer.color = OverlapBuilding() ? Color.red : Color.green;
     }
 
     // Update is called once per frame
@@ -28,19 +28,24 @@ public class BuildingPlan : MonoBehaviour
             var pos = tilemap.CellToWorld(cellPos);
 
             transform.position = new Vector3(pos.x, pos.y);
-        }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            var cellPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            confirmLocalEvent.Invoke(cellPos);
+            spriteRenderer.color = OverlapBuilding() ? Color.red : Color.green;
         }
     }
 
-    //void OnMouseDown()
-    //{
-    //    Debug.Log("Sprite Clicked");
+    private bool OverlapBuilding()
+    {
+        var fliter = new ContactFilter2D();
+        fliter.NoFilter();
 
-    //    Destroy(this.gameObject);
-    //}
+        var list = new List<Collider2D>();
+        var count = GetComponent<BoxCollider2D>().OverlapCollider(fliter, list);
+        return count != 0;
+    }
+
+    void OnMouseDown()
+    {
+        var cellPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        confirmLocalEvent.Invoke(cellPos);
+    }
 }

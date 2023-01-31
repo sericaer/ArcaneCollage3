@@ -20,4 +20,9 @@ public class Building : MonoBehaviour
     }
 
     private Vector3Int _cellPos;
+
+    void OnMouseDown()
+    {
+        Debug.Log("Sprite Clicked");
+    }
 }
