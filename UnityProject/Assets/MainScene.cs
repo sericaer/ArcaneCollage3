@@ -32,6 +32,7 @@ public class MainScene : MonoBehaviour
 
         buildingPlan.confirmLocalEvent.AddListener((pos) =>
         {
+            Debug.Log($"{buildingPlan.GetComponent<SpriteRenderer>().color }");
             if (buildingPlan.GetComponent<SpriteRenderer>().color == Color.green)
             {
                 Destroy(buildingPlan.gameObject);
