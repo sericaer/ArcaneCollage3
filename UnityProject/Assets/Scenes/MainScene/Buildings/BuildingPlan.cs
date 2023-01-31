@@ -8,6 +8,7 @@ public class BuildingPlan : MonoBehaviour
 {
     public Tilemap tilemap;
     public UnityEvent<Vector3Int> confirmLocalEvent;
+    public Sprite sprite;
 
     private SpriteRenderer spriteRenderer;
 
@@ -16,6 +17,11 @@ public class BuildingPlan : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = OverlapBuilding() ? Color.red : Color.green;
+        spriteRenderer.sprite = sprite;
+
+        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
+        boxCollider2D.size = sprite.bounds.size;
+        boxCollider2D.offset = boxCollider2D.size/2;
     }
 
     // Update is called once per frame

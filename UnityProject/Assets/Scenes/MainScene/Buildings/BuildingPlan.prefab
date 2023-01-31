@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2208183423006390720}
   - component: {fileID: 2208183423006391871}
   - component: {fileID: 2208183423006390722}
-  - component: {fileID: -7527348367860892860}
+  - component: {fileID: 2208183423006390721}
   m_Layer: 0
-  m_Name: Building
+  m_Name: BuildingPlan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
---- !u!114 &-7527348367860892860
+--- !u!114 &2208183423006390721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2208183423006391870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e90350e03eddd47bf64934bf8dfa09, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d3bbaa780afe2741971931357f90e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
+  confirmLocalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  sprite: {fileID: 21300000, guid: d7524ca48e0f384418521fe5141ae35b, type: 3}
