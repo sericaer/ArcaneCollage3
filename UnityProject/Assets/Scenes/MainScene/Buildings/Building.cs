@@ -5,7 +5,21 @@ public class Building : MonoBehaviour
 {
     public Tilemap tilemap;
 
-    public Sprite sprite;
+    public Sprite sprite
+    {
+        get
+        {
+            return GetComponent<SpriteRenderer>().sprite;
+        }
+        set
+        {
+            GetComponent<SpriteRenderer>().sprite = value;
+
+            BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
+            boxCollider2D.size = sprite.bounds.size;
+            boxCollider2D.offset = boxCollider2D.size / 2;
+        }
+    }
 
     internal Vector3Int cellPos
     {
@@ -23,16 +37,6 @@ public class Building : MonoBehaviour
     }
 
     private Vector3Int _cellPos;
-
-    void Start()
-    {
-        var spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
-
-        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
-        boxCollider2D.size = sprite.bounds.size;
-        boxCollider2D.offset = boxCollider2D.size / 2;
-    }
 
     void OnMouseDown()
     {

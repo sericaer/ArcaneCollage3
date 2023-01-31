@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2208183423006391871}
   - component: {fileID: 2208183423006390722}
   - component: {fileID: -7527348367860892860}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,4 +125,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
-  sprite: {fileID: 21300000, guid: d7524ca48e0f384418521fe5141ae35b, type: 3}
+  sprite: {fileID: 21300000, guid: 47c5dffa69fd29040ba780dc8dd739e8, type: 3}
