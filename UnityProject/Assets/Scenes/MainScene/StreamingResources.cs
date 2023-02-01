@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class StreamingResources
@@ -13,26 +14,19 @@ public class StreamingResources
 
     public static void Load()
     {
-        var modRoot = Path.Combine(Application.streamingAssetsPath, "Mods");
+        mods = new Mods(Path.Combine(Application.streamingAssetsPath, "Mods"));
 
-        sprites = Directory.EnumerateFiles(modRoot, "*.png", SearchOption.AllDirectories)
-            .Select(imgPath =>
-            {
-                Texture2D tex = new Texture2D(2, 2);
-                tex.LoadImage(File.ReadAllBytes(imgPath));
-                var sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100);
-                sprite.name = imgPath.Replace(modRoot, "");
-                return sprite;
-            })
-            .ToDictionary(p=>p.name, p=>p);
-
-        Mods.RegisterDefine<BuildingDefine>(@"Buildings\*\Define.hjson");
-
-        mods = new Mods(modRoot);
+        sprites = mods.images.ToDictionary(i => i.path, i =>
+        {
+            Texture2D tex = new Texture2D(2, 2);
+            tex.LoadImage(i.bytes);
+            return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100);
+        });
     }
 }
 
-class BuildingDefine : IDefine
+[DefineProperty(scriptPath: @"Buildings\*\Define.hjson")]
+public class BuildingDefine : IDefine
 {
     public string path { get; set; }
     public string name => Directory.GetParent(path).Name;
@@ -44,11 +38,4 @@ class BuildingDefine : IDefine
 
     [JsonProperty("maintenance_cost")]
     public int maintenanceCost;
-
-    //public BuildingDefine(string key, string content)
-    //{
-    //    this.key = key.Replace("Define.hjson", "Image.png");
-
-    //    this.name = Path.GetFileNameWithoutExtension(key);
-    //}
 }

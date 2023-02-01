@@ -4,18 +4,24 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace GMEngine
 {
     public class Mods
     {
-        public static Dictionary<string, Type> path2Type = new Dictionary<string, Type>();
+        public IEnumerable<Image> images { get; }
 
         private Dictionary<Type, List<IDefine>> type2Define = new Dictionary<Type, List<IDefine>>();
         
         public Mods(string root)
         {
-            foreach(var dir in Directory.EnumerateDirectories(root))
+            images = Directory.EnumerateFiles(root, "*.png", SearchOption.AllDirectories)
+                .Select(imgPath => new Image(imgPath))
+                .ToArray();
+
+            var path2Type = GernerateScriptType();
+            foreach (var dir in Directory.EnumerateDirectories(root))
             {
                 foreach(var pair in path2Type)
                 {
@@ -42,16 +48,17 @@ namespace GMEngine
             }
         }
 
+        private Dictionary<string, Type> GernerateScriptType()
+        {
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name == "Assembly-CSharp");
+            var defineTypes = assembly.GetTypes().Where(x => typeof(IDefine).IsAssignableFrom(x));
+            return defineTypes.ToDictionary(t => t.GetCustomAttribute<DefineProperty>().scriptPath, t => t);
+        }
+
         public IEnumerable<T> GetDefines<T>()
             where T: IDefine
         {
             return type2Define[typeof(T)].OfType<T>();
-        }
-
-        public static void RegisterDefine<T>(string path)
-            where T: IDefine
-        {
-            path2Type.Add(path, typeof(T));
         }
 
         private static void EnumerateFiles(string path, Action<string> iterFileAction)
@@ -92,5 +99,27 @@ namespace GMEngine
     public interface IDefine
     {
         string path { get; set; }
+    }
+
+    public class Image
+    {
+        public string path { get; set; }
+        public byte[] bytes { get; set; }
+
+        public Image(string path)
+        {
+            this.path = path;
+            this.bytes = File.ReadAllBytes(path);
+        }
+
+    }
+
+    public class DefineProperty : Attribute
+    {
+        public string scriptPath;
+        public DefineProperty(string scriptPath)
+        {
+            this.scriptPath = scriptPath;
+        }
     }
 }
