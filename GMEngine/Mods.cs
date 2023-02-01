@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Hjson;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace GMEngine
     {
         public static Dictionary<string, Type> path2Type = new Dictionary<string, Type>();
 
-        private Dictionary<Type, List<object>> defines = new Dictionary<Type, List<object>>();
+        private Dictionary<Type, List<IDefine>> type2Define = new Dictionary<Type, List<IDefine>>();
         
         public Mods(string root)
         {
@@ -17,27 +19,37 @@ namespace GMEngine
             {
                 foreach(var pair in path2Type)
                 {
-                    if (!defines.ContainsKey(pair.Value))
+                    var definePath = pair.Key;
+                    var defineType = pair.Value;
+
+                    if (!type2Define.ContainsKey(defineType))
                     {
-                        defines.Add(pair.Value, new List<object>());
+                        type2Define.Add(defineType, new List<IDefine>());
                     }
                     
-                    var absolutPath = Path.Combine(dir, pair.Key);
+                    var absolutPath = Path.Combine(dir, definePath);
 
                     EnumerateFiles(absolutPath, (scriptPath) =>
                     {
-                        defines[pair.Value].Add(Activator.CreateInstance(pair.Value, scriptPath.Replace(root, ""), File.ReadAllText(scriptPath)));
+                        var jsonStr = HjsonValue.Load(scriptPath).ToString();
+
+                        var define = JsonConvert.DeserializeObject(jsonStr, defineType) as IDefine;
+                        define.path = scriptPath;
+
+                        type2Define[defineType].Add(define);
                     });
                 }
             }
         }
 
         public IEnumerable<T> GetDefines<T>()
+            where T: IDefine
         {
-            return defines[typeof(T)].OfType<T>();
+            return type2Define[typeof(T)].OfType<T>();
         }
 
         public static void RegisterDefine<T>(string path)
+            where T: IDefine
         {
             path2Type.Add(path, typeof(T));
         }
@@ -75,5 +87,10 @@ namespace GMEngine
                 }
             }
         }
+    }
+
+    public interface IDefine
+    {
+        string path { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GMEngine;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,18 +32,23 @@ public class StreamingResources
     }
 }
 
-class BuildingDefine
+class BuildingDefine : IDefine
 {
-    public string name;
-    public string key;
+    public string path { get; set; }
+    public string name => Directory.GetParent(path).Name;
+    public string key => path;
+    public string image => path.Replace("Define.hjson", "Image.png");
 
+    [JsonProperty("construction_cost")]
     public int constructionCost;
+
+    [JsonProperty("maintenance_cost")]
     public int maintenanceCost;
 
-    public BuildingDefine(string key, string content)
-    {
-        this.key = key.Replace("Define.hjson", "Image.png");
+    //public BuildingDefine(string key, string content)
+    //{
+    //    this.key = key.Replace("Define.hjson", "Image.png");
 
-        this.name = Path.GetFileNameWithoutExtension(key);
-    }
+    //    this.name = Path.GetFileNameWithoutExtension(key);
+    //}
 }

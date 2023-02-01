@@ -33,7 +33,7 @@ public class BuildingPlanList : MonoBehaviour
 
                 currPlan = Instantiate<BuildingPlan>(planPrototype);
                 currPlan.tilemap = tilemap;
-                currPlan.sprite = StreamingResources.sprites[def.key];
+                currPlan.sprite = StreamingResources.sprites[def.image];
             });
         }
 
