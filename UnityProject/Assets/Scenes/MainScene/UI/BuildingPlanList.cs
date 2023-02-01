@@ -17,15 +17,15 @@ public class BuildingPlanList : MonoBehaviour
     {
         StreamingResources.Load();
 
-        foreach(var sprite in StreamingResources.sprites)
+        foreach(var def in StreamingResources.mods.GetDefines<BuildingDefine>())
         {
             var newItem = Instantiate(defaultItem, defaultItem.transform.parent);
-            newItem.name = sprite.name;
-            newItem.GetComponentInChildren<Text>().text = newItem.name = sprite.name;
+            newItem.name = def.name;
+            newItem.GetComponentInChildren<Text>().text = newItem.name;
 
             newItem.onClick.AddListener(() =>
             {
-                if(currPlan != null)
+                if (currPlan != null)
                 {
                     Destroy(currPlan.gameObject);
                     currPlan = null;
@@ -33,10 +33,30 @@ public class BuildingPlanList : MonoBehaviour
 
                 currPlan = Instantiate<BuildingPlan>(planPrototype);
                 currPlan.tilemap = tilemap;
-                currPlan.sprite = sprite;
+                currPlan.sprite = StreamingResources.sprites[def.key];
             });
-
         }
+
+        //foreach(var sprite in StreamingResources.spriteDict.Values)
+        //{
+        //    var newItem = Instantiate(defaultItem, defaultItem.transform.parent);
+        //    newItem.name = sprite.name;
+        //    newItem.GetComponentInChildren<Text>().text = newItem.name = sprite.name;
+
+        //    newItem.onClick.AddListener(() =>
+        //    {
+        //        if(currPlan != null)
+        //        {
+        //            Destroy(currPlan.gameObject);
+        //            currPlan = null;
+        //        }
+
+        //        currPlan = Instantiate<BuildingPlan>(planPrototype);
+        //        currPlan.tilemap = tilemap;
+        //        currPlan.sprite = sprite;
+        //    });
+
+        //}
 
         defaultItem.gameObject.SetActive(false);
     }

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "1+5Iv9ebTIB55okiaNe6a8fOl1ODeXYMW5obi3o6Sku4617Uik61ZwMF/jNHi4xDBPoyPB3YCwNZgxbD90R/Aw==",
+  "success": true,
+  "projectFilePath": "D:\\myproject\\ArcaneCollage\\GMEngine\\GMEngine.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\fang\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\fang\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
