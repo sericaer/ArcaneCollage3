@@ -1,3 +1,4 @@
+using Mods.Defines;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,27 +37,6 @@ public class BuildingPlanList : MonoBehaviour
                 currPlan.sprite = StreamingResources.sprites[def.image];
             });
         }
-
-        //foreach(var sprite in StreamingResources.spriteDict.Values)
-        //{
-        //    var newItem = Instantiate(defaultItem, defaultItem.transform.parent);
-        //    newItem.name = sprite.name;
-        //    newItem.GetComponentInChildren<Text>().text = newItem.name = sprite.name;
-
-        //    newItem.onClick.AddListener(() =>
-        //    {
-        //        if(currPlan != null)
-        //        {
-        //            Destroy(currPlan.gameObject);
-        //            currPlan = null;
-        //        }
-
-        //        currPlan = Instantiate<BuildingPlan>(planPrototype);
-        //        currPlan.tilemap = tilemap;
-        //        currPlan.sprite = sprite;
-        //    });
-
-        //}
 
         defaultItem.gameObject.SetActive(false);
     }
