@@ -1,3 +1,5 @@
+using ArcaneCollage.Mods.Defines;
+using ArcaneCollage.Sessions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +11,8 @@ public class BuildingPlan : MonoBehaviour
     public Building buildingPrototype;
 
     public Tilemap tilemap;
+
+    public BuildingDefine def;
 
     public Sprite sprite
     {
@@ -74,7 +78,10 @@ public class BuildingPlan : MonoBehaviour
     {
         if (isLegal)
         {
+
             var cellPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+            Session.CreateEntity(Entity.BuildingInit(def, cellPos));
 
             var building = Instantiate<Building>(buildingPrototype);
             building.tilemap = tilemap;

@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.IO;
 
-namespace Mods.Defines
+namespace ArcaneCollage.Mods.Defines
 {
     [DefineProperty(scriptPath: @"Buildings\*\Define.hjson")]
     public class BuildingDefine : IDefine

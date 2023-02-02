@@ -1,4 +1,4 @@
-using Mods.Defines;
+using ArcaneCollage.Mods.Defines;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
