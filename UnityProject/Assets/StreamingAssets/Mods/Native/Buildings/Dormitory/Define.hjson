@@ -1,4 +1,13 @@
 {
-    construction_cost:100    
-    maintenance_cost:1
+    construction_cost: [ 
+    { 
+        type : stone 
+        value : 30 
+    } ]
+    
+    maintenance_cost: [ 
+    { 
+        type : stone 
+        value : 0.5
+    } ]
 }
