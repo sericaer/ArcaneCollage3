@@ -4,14 +4,22 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class MainScene : MonoBehaviour
 {
     public Tilemap tilemap;
     public TileBase tileset;
+
+    public Button test;
+    public GameObject des;
+
     private void Start()
     {
-        for(int i=-50; i<=50; i++)
+        test.onClick.AddListener(() =>
+            Instantiate(des, des.transform.parent)
+        );
+        for (int i=-50; i<=50; i++)
         {
             for(int j=-50; j<=50; j++)
             {
