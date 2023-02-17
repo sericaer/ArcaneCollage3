@@ -13,7 +13,7 @@ public class MainScene : RxBehaviour<ISession>
 
     public Transform center;
 
-    //public BuildingForm buildingForm;
+    public BuildingForm buildingForm;
 
     protected override void BindingInit()
     {
@@ -26,8 +26,8 @@ public class MainScene : RxBehaviour<ISession>
 
         buildingTop.button.onClick.AddListener(() =>
         {
-            //var form = Instantiate(buildingForm, center);
-            //form.dataContext = session?.buildings;
+            var form = Instantiate(buildingForm, center);
+            //form.SetItemSource(dataContext?.buildings);
         });
 
         for (int i=-50; i<=50; i++)
@@ -38,18 +38,14 @@ public class MainScene : RxBehaviour<ISession>
             }
         }
     }
+
     // Update is called once per frame
     void Update()
     {
-        if(dataContext != null)
-        {
-            dataContext.buildings.count++;
-        }
+        //if(dataContext != null)
+        //{
+        //    dataContext.buildings.count++;
+        //}
     }
 }
-
-//public class BuildingForm : MonoBehaviour
-//{
-//    public List<IBuilding> dataContext { get; set; }
-//}
 

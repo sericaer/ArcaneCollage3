@@ -29,8 +29,16 @@ namespace Sessions
         public int count { get; set; }
     }
 
-    public interface IBuildingMgr : INotifyPropertyChanged
+    public interface IBuildingMgr
     {
-        int count { get; set; }
+        IObservable<int> count { get; }
+
+        IObservable<IBuilding> OnAddItem { get; }
+
+        IObservable<IBuilding> OnRemoveItem { get; }
+    }
+
+    public interface IBuilding
+    {
     }
 }
