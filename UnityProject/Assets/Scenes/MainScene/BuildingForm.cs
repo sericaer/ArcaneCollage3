@@ -12,8 +12,6 @@ public class BuildingForm : MonoBehaviour
     public List<BuildingFormItem> items;
     private CompositeDisposable _compositeDisposable;
 
-    private Dictionary<object, CompositeDisposable> dictComposite;
-
     internal void SetItemSource(IBuildingMgr buildings)
     {
         items.Clear();
@@ -22,10 +20,16 @@ public class BuildingForm : MonoBehaviour
 
         _compositeDisposable = new CompositeDisposable();
 
-        _compositeDisposable.Add(buildings.OnAddItem.Subscribe(x => items.Add(new BuildingFormItemWithContext(x))));
+        _compositeDisposable.Add(buildings.OnAddItem.Subscribe(x =>
+        {
+            var item = new BuildingFormItem();
+            item.SetDataContext(x);
+            items.Add(item);
+        }));
+
         _compositeDisposable.Add(buildings.OnRemoveItem.Subscribe(x =>
         {
-            var item = items.OfType<BuildingFormItemWithContext>().Single(x => x.dataContext == x);
+            var item = items.Single(x => x.dataContext == x);
             item.Dispose();
 
             items.Remove(item);
@@ -45,17 +49,27 @@ public class BuildingForm : MonoBehaviour
 }
 
 [System.Serializable]
-public class BuildingFormItem
+public class BuildingFormItem : IDisposable
 {
     public string name;
-}
 
-public class BuildingFormItemWithContext: BuildingFormItem, IDisposable
-{
     public IBuilding dataContext;
+
+    private CompositeDisposable _compositeDisposable;
+
+    public void SetDataContext(IBuilding building)
+    {
+        _compositeDisposable?.Dispose();
+
+        _compositeDisposable = new CompositeDisposable();
+
+        this.dataContext = building;
+
+        name = dataContext.name;
+    }
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        _compositeDisposable?.Dispose();
     }
 }

@@ -27,7 +27,7 @@ public class MainScene : RxBehaviour<ISession>
         buildingTop.button.onClick.AddListener(() =>
         {
             var form = Instantiate(buildingForm, center);
-            //form.SetItemSource(dataContext?.buildings);
+            form.SetItemSource(dataContext?.buildings);
         });
 
         for (int i=-50; i<=50; i++)

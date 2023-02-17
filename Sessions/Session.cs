@@ -24,21 +24,40 @@ namespace Sessions
 
     internal class BuildingMgr : IBuildingMgr
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public IObservable<int> count => throw new NotImplementedException();
 
-        public int count { get; set; }
+        public IObservable<IBuilding> OnAddItem => throw new NotImplementedException();
+
+        public IObservable<IBuilding> OnRemoveItem => throw new NotImplementedException();
+
+        public IBuilding AddBuilding()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBuilding(IBuilding building)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public interface IBuildingMgr
+    public interface IBuildingMgr : IRxCollection<IBuilding>
+    {
+        IBuilding AddBuilding();
+        void RemoveBuilding(IBuilding building);
+    }
+
+    public interface IRxCollection<T>
+        where T:class, INotifyPropertyChanged
     {
         IObservable<int> count { get; }
 
-        IObservable<IBuilding> OnAddItem { get; }
+        IObservable<T> OnAddItem { get; }
 
-        IObservable<IBuilding> OnRemoveItem { get; }
+        IObservable<T> OnRemoveItem { get; }
     }
 
-    public interface IBuilding
+    public interface IBuilding : INotifyPropertyChanged
     {
     }
 }
