@@ -1,6 +1,5 @@
 using RxPropertyChanged;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using Sessions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -54,70 +53,3 @@ public class MainScene : RxBehaviour<ISession>
 //    public List<IBuilding> dataContext { get; set; }
 //}
 
-public interface ISession : INotifyPropertyChanged
-{
-    public IBuildingMgr buildings { get; }
-
-    public int a { get; set; }
-}
-
-
-public class Session : ISession
-{
-    public IBuildingMgr buildings { get; } = new BuildingMgr();
-
-    public int a
-    {
-        get
-        {
-            return _a;
-        }
-        set
-        {
-            _a = value;
-
-            NotifyPropertyChanged();
-        }
-    }
-
-    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private int _a;
-
-
-    public event PropertyChangedEventHandler PropertyChanged;
-}
-
-internal class BuildingMgr : IBuildingMgr
-{
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public int count
-    {
-        get
-        {
-            return _a;
-        }
-        set
-        {
-            _a = value;
-
-            NotifyPropertyChanged();
-        }
-    }
-
-    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private int _a;
-}
-
-public interface IBuildingMgr : INotifyPropertyChanged
-{
-    int count { get; set; }
-}
