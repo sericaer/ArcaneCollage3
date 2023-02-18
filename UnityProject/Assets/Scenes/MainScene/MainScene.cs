@@ -11,7 +11,7 @@ public class MainScene : RxBehaviour<ISession>
 
     public BuildingTop buildingTop;
 
-    public Transform center;
+    public ViewBox center;
 
     public BuildingForm buildingForm;
 
@@ -26,7 +26,16 @@ public class MainScene : RxBehaviour<ISession>
 
         buildingTop.button.onClick.AddListener(() =>
         {
-            var form = Instantiate(buildingForm, center);
+            dataContext.buildings.AddBuilding();
+
+            if(center.child != null && center.child.GetComponent<BuildingForm>() != null)
+            {
+                return;
+            }
+
+            var form = Instantiate(buildingForm);
+            center.child = form.gameObject;
+
             form.SetItemSource(dataContext?.buildings);
         });
 

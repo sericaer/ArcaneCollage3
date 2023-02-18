@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 
 namespace Sessions
@@ -24,21 +28,63 @@ namespace Sessions
 
     internal class BuildingMgr : IBuildingMgr
     {
-        public IObservable<int> count => throw new NotImplementedException();
 
-        public IObservable<IBuilding> OnAddItem => throw new NotImplementedException();
+        private readonly Subject<IBuilding> _OnAddItem = new Subject<IBuilding>();
+        private readonly Subject<IBuilding> _OnRemoveItem = new Subject<IBuilding>();
 
-        public IObservable<IBuilding> OnRemoveItem => throw new NotImplementedException();
+        private List<IBuilding> items = new List<IBuilding>();
+
+        public int count { get; set; }
+
+        public IObservable<IBuilding> OnAddItem => _OnAddItem;
+
+        public IObservable<IBuilding> OnRemoveItem => _OnRemoveItem;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public IBuilding AddBuilding()
         {
-            throw new NotImplementedException();
+            var building = new Building();
+            building.name = DateTime.Now.ToString();
+
+            items.Add(building);
+
+            _OnAddItem.OnNext(building);
+
+            count = this.Count();
+
+            return building;
         }
 
         public void RemoveBuilding(IBuilding building)
         {
-            throw new NotImplementedException();
+            items.Remove(building);
+
+            _OnRemoveItem.OnNext(building);
+            count = this.Count();
         }
+
+        public IEnumerator<IBuilding> GetEnumerator()
+        {
+            return ((IEnumerable<IBuilding>)items).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)items).GetEnumerator();
+        }
+
+        public BuildingMgr()
+        {
+
+        }
+    }
+
+    public class Building : IBuilding
+    {
+        public string name { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public interface IBuildingMgr : IRxCollection<IBuilding>
@@ -47,10 +93,10 @@ namespace Sessions
         void RemoveBuilding(IBuilding building);
     }
 
-    public interface IRxCollection<T>
+    public interface IRxCollection<T> : INotifyPropertyChanged, IEnumerable<T>
         where T:class, INotifyPropertyChanged
     {
-        IObservable<int> count { get; }
+        int count { get; }
 
         IObservable<T> OnAddItem { get; }
 
@@ -59,5 +105,6 @@ namespace Sessions
 
     public interface IBuilding : INotifyPropertyChanged
     {
+        string name { get; }
     }
 }

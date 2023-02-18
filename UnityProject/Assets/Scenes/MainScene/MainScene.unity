@@ -3261,8 +3261,8 @@ MonoBehaviour:
   tilemap: {fileID: 1931274823}
   tileset: {fileID: 11400000, guid: 4f8271708d59f0747887bdc5caeff9b3, type: 2}
   buildingTop: {fileID: 92020262}
-  center: {fileID: 1801088832}
-  buildingForm: {fileID: 5309121742190476105, guid: fc7c6ea4324932c4da31702362822518, type: 3}
+  center: {fileID: 1801088837}
+  buildingForm: {fileID: 2549445725743908433, guid: fc7c6ea4324932c4da31702362822518, type: 3}
 --- !u!4 &1392171461
 Transform:
   m_ObjectHideFlags: 0
@@ -3741,10 +3741,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1801088831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94cddfa0700bbf84794f95b8f8771d7a, type: 3}
+  m_Script: {fileID: 11500000, guid: d250a6a39f567c04e914a5247dc744a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
 --- !u!1 &1821239615
 GameObject:
   m_ObjectHideFlags: 0
