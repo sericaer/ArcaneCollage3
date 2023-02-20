@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿using Mods.Defines;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Building : MonoBehaviour
 {
     public Tilemap tilemap;
 
-    public Sprite sprite
+    public BuildingDefine def
     {
         get
         {
-            return GetComponent<SpriteRenderer>().sprite;
+            return _def;
         }
         set
         {
-            GetComponent<SpriteRenderer>().sprite = value;
+            _def = value;
 
-            BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
+
+            var sprite = StreamingResources.sprites[def.image];
+            GetComponent<SpriteRenderer>().sprite = sprite;
+
+            var boxCollider2D = GetComponent<BoxCollider2D>();
             boxCollider2D.size = sprite.bounds.size;
             boxCollider2D.offset = boxCollider2D.size / 2;
         }
@@ -36,6 +41,7 @@ public class Building : MonoBehaviour
         }
     }
 
+    private BuildingDefine _def;
     private Vector3Int _cellPos;
 
     void OnMouseDown()

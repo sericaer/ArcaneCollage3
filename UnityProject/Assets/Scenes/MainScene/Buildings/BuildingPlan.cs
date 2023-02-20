@@ -1,3 +1,4 @@
+using Mods.Defines;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,15 +11,21 @@ public class BuildingPlan : MonoBehaviour
 
     public Tilemap tilemap;
 
-    public Sprite sprite
+    public UnityEvent<BuildingDefine> StartBuilding;
+
+    public BuildingDefine def
     {
         get
         {
-            return GetComponent<SpriteRenderer>().sprite;
+            return _def;
         }
         set
         {
-            GetComponent<SpriteRenderer>().sprite = value;
+            _def = value;
+
+
+            var sprite = StreamingResources.sprites[def.image];
+            GetComponent<SpriteRenderer>().sprite = sprite;
 
             var boxCollider2D = GetComponent<BoxCollider2D>();
             boxCollider2D.size = sprite.bounds.size;
@@ -37,6 +44,8 @@ public class BuildingPlan : MonoBehaviour
             GetComponent<SpriteRenderer>().color = value ? Color.green : Color.red;
         }
     }
+
+    private BuildingDefine _def;
 
     // Start is called before the first frame update
     void Start()
@@ -74,12 +83,14 @@ public class BuildingPlan : MonoBehaviour
     {
         if (isLegal)
         {
+            StartBuilding.Invoke(def);
+
             var cellPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
             var building = Instantiate<Building>(buildingPrototype);
             building.tilemap = tilemap;
             building.cellPos = cellPos;
-            building.sprite = sprite;
+            building.def = def;
 
             Destroy(gameObject);
         }

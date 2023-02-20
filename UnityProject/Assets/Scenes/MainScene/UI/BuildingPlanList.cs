@@ -2,17 +2,19 @@ using Mods.Defines;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class BuildingPlanList : MonoBehaviour
 {
+    public UnityEvent<BuildingDefine> StartPlan;
     public Button defaultItem;
 
-    public Tilemap tilemap;
-    public BuildingPlan planPrototype;
+    //public Tilemap tilemap;
+    //public BuildingPlan planPrototype;
 
-    private BuildingPlan currPlan;
+    //private BuildingPlan currPlan;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,18 +26,22 @@ public class BuildingPlanList : MonoBehaviour
             newItem.name = def.name;
             newItem.GetComponentInChildren<Text>().text = newItem.name;
 
-            newItem.onClick.AddListener(() =>
-            {
-                if (currPlan != null)
-                {
-                    Destroy(currPlan.gameObject);
-                    currPlan = null;
-                }
+            newItem.onClick.AddListener(() => StartPlan.Invoke(def));
 
-                currPlan = Instantiate<BuildingPlan>(planPrototype);
-                currPlan.tilemap = tilemap;
-                currPlan.sprite = StreamingResources.sprites[def.image];
-            });
+            //newItem.onClick.AddListener(() => 
+            //{
+            //    if (currPlan != null)
+            //    {
+            //        Destroy(currPlan.gameObject);
+            //        currPlan = null;
+            //    }
+
+            //    currPlan = Instantiate<BuildingPlan>(planPrototype);
+            //    currPlan.tilemap = tilemap;
+            //    currPlan.sprite = StreamingResources.sprites[def.image];
+
+            //    currPlan.PlanStart.AddListener((def) => CreateBuilding.Invoke(def));
+            //});
         }
 
         defaultItem.gameObject.SetActive(false);

@@ -1,23 +1,41 @@
+using Mods.Defines;
 using RxPropertyChanged;
 using Sessions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
+public class RxSpriteMgrBehaviour<TData, TSprite>
+{
+
+}
+
+public class BuildingSpriteMgr : RxSpriteMgrBehaviour<IBuilding, BuildingSprite>
+{
+
+}
 
 public class MainScene : RxBehaviour<ISession>
 {
     public Tilemap tilemap;
     public TileBase tileset;
 
-
     public BuildingTop buildingTop;
 
+    public BuildingSpriteMgr buildingSpriteMgr;
+    
     public ViewBox center;
 
     public BuildingForm buildingForm;
 
+    public void OnCreateBuilding(BuildingDefine def)
+    {
+        dataContext.buildings.AddBuilding();
+    }
+
     protected override void BindingInit()
     {
         Binding(dataContext => dataContext.buildings.count, buildingTop.buildingCount);
+        Binding(dataContext => dataContext.buildings, buildingSpriteMgr);
     }
 
     void Start()
