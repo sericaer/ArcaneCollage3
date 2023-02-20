@@ -26,17 +26,10 @@ public class MainScene : RxBehaviour<ISession>
 
         buildingTop.button.onClick.AddListener(() =>
         {
-            dataContext.buildings.AddBuilding();
-
-            if(center.child != null && center.child.GetComponent<BuildingForm>() != null)
-            {
-                return;
-            }
-
-            var form = Instantiate(buildingForm);
-            center.child = form.gameObject;
-
+            var form = center.CreateInstance(buildingForm);
             form.SetItemSource(dataContext?.buildings);
+
+            dataContext.buildings.AddBuilding();
         });
 
         for (int i=-50; i<=50; i++)

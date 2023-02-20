@@ -63,12 +63,20 @@ where T : class, INotifyPropertyChanged
         where TItemFrom : class, INotifyPropertyChanged
         where TItemTarget : RxTableItem<TItemFrom>, new()
     {
-        public List<TItemTarget> targetItems;
-
         private CompositeDisposable _compositeDisposable;
+
+        private IRxCollection<TItemFrom> fromItems;
+        private List<TItemTarget> targetItems;
 
         public void SetItemSource(IRxCollection<TItemFrom> fromItems)
         {
+            if(this.fromItems == fromItems)
+            {
+                return;
+            }
+
+            this.fromItems = fromItems;
+
             targetItems.Clear();
 
             DisposeBinding();
