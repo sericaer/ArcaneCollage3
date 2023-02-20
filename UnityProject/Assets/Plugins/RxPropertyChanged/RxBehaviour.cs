@@ -1,4 +1,5 @@
 ﻿using ReactiveMarbles.PropertyChanged;
+using Sessions;
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -40,6 +41,17 @@ namespace RxPropertyChanged
             _compositeDisposable.Add(dataContext.WhenChanged(fromProperty).Subscribe(x => text.text = x.ToString()));
         }
 
+        protected void Binding<TFrom, TTarget>(Expression<Func<T, IRxCollection<TFrom>>> fromProperty, RxSpriteMgrBehaviour<TFrom, TTarget> spriteMgr)
+            where TFrom : class, INotifyPropertyChanged
+        {
+            if (_compositeDisposable == null)
+            {
+                _compositeDisposable = new CompositeDisposable();
+            }
+
+            _compositeDisposable.Add(dataContext.WhenChanged(fromProperty).Subscribe(x => text.text = x.ToString()));
+        }
+
         protected void DisposeBinding()
         {
             _compositeDisposable?.Dispose();
@@ -50,5 +62,10 @@ namespace RxPropertyChanged
         {
             DisposeBinding();
         }
+    }
+
+    public class RxSpriteMgrBehaviour<TData, TSprite> : MonoBehaviour
+    {
+
     }
 }

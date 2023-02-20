@@ -4,16 +4,6 @@ using Sessions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class RxSpriteMgrBehaviour<TData, TSprite>
-{
-
-}
-
-public class BuildingSpriteMgr : RxSpriteMgrBehaviour<IBuilding, BuildingSprite>
-{
-
-}
-
 public class MainScene : RxBehaviour<ISession>
 {
     public Tilemap tilemap;
