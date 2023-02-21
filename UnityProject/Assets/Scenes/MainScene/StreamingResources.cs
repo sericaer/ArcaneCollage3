@@ -16,7 +16,9 @@ public class StreamingResources
         {
             Texture2D tex = new Texture2D(2, 2);
             tex.LoadImage(i.bytes);
-            return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100);
+            var sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100);
+            sprite.name = i.path;
+            return sprite;
         });
     }
 }

@@ -11,7 +11,7 @@ public class BuildingPlan : MonoBehaviour
 
     public Tilemap tilemap;
 
-    public UnityEvent<BuildingDefine> StartBuilding;
+    public UnityEvent<BuildingDefine, Vector3> StartBuilding;
 
     public BuildingDefine def
     {
@@ -83,14 +83,9 @@ public class BuildingPlan : MonoBehaviour
     {
         if (isLegal)
         {
-            StartBuilding.Invoke(def);
+            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            var cellPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-            var building = Instantiate<Building>(buildingPrototype);
-            building.tilemap = tilemap;
-            building.cellPos = cellPos;
-            building.def = def;
+            StartBuilding.Invoke(def, new Vector3(pos.x, pos.y, 0));
 
             Destroy(gameObject);
         }

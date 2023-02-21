@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class BuildingPlanMgr : MonoBehaviour
 {
-    public UnityEvent<BuildingDefine> CreateBuilding;
+    public UnityEvent<BuildingDefine, Vector3> CreateBuilding;
 
     public Tilemap tilemap;
 
@@ -25,6 +25,6 @@ public class BuildingPlanMgr : MonoBehaviour
         currPlan.tilemap = tilemap;
         currPlan.def = def;
 
-        currPlan.StartBuilding.AddListener((def) => CreateBuilding.Invoke(def));
+        currPlan.StartBuilding.AddListener((def, pos) => CreateBuilding.Invoke(def, pos));
     }
 }

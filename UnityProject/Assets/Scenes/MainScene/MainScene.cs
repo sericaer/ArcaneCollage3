@@ -17,27 +17,26 @@ public class MainScene : RxBehaviour<ISession>
 
     public BuildingForm buildingForm;
 
-    public void OnCreateBuilding(BuildingDefine def)
+    public void OnCreateBuilding(BuildingDefine def, Vector3 pos)
     {
-        dataContext.buildings.AddBuilding();
+        dataContext.buildings.AddBuilding(def, (pos.x, pos.y, pos.z));
     }
 
     protected override void BindingInit()
     {
         Binding(dataContext => dataContext.buildings.count, buildingTop.buildingCount);
-        Binding(dataContext => dataContext.buildings, buildingSpriteMgr);
     }
 
     void Start()
     {
-        SetDataContext(new Session());
+        dataContext = new Session();
+
+        buildingSpriteMgr.itemSource = dataContext.buildings;
 
         buildingTop.button.onClick.AddListener(() =>
         {
             var form = center.CreateInstance(buildingForm);
             form.SetItemSource(dataContext?.buildings);
-
-            dataContext.buildings.AddBuilding();
         });
 
         for (int i=-50; i<=50; i++)

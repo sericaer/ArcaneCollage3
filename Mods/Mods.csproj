@@ -6,17 +6,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\UnityProject\Assets\Depends\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="7.12.11" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Mods\Mods.csproj" />
+    <ProjectReference Include="..\GMEngine\GMEngine.csproj" />
   </ItemGroup>
 
 </Project>

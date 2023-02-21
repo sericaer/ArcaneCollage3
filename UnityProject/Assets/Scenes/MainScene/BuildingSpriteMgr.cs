@@ -1,7 +1,6 @@
 ﻿using RxPropertyChanged;
-using Sessions;
 
-public class BuildingSpriteMgr : RxSpriteMgrBehaviour<IBuilding, Building>
+public class BuildingSpriteMgr : RxSpriteMgrBehaviour<Sessions.IBuilding, Building>
 {
 
 }

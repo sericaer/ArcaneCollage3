@@ -1,5 +1,4 @@
 ﻿using ReactiveMarbles.PropertyChanged;
-using Sessions;
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -12,9 +11,27 @@ namespace RxPropertyChanged
     public abstract class RxBehaviour<T> : MonoBehaviour
         where T : class, INotifyPropertyChanged
     {
-        protected T dataContext;
+        protected T _dataContext;
 
         private CompositeDisposable _compositeDisposable;
+
+        public T dataContext
+        {
+            get
+            {
+                return _dataContext;
+            }
+            set
+            {
+                DisposeBinding();
+
+                _compositeDisposable = new CompositeDisposable();
+
+                _dataContext = value;
+
+                BindingInit();
+            }
+        }
 
         public void SetDataContext(T dataContext)
         {
@@ -33,23 +50,12 @@ namespace RxPropertyChanged
 
         protected void Binding<TProperty>(Expression<Func<T,TProperty>> fromProperty, Text text)
         {
-            if (_compositeDisposable == null)
-            {
-                _compositeDisposable = new CompositeDisposable();
-            }
-
             _compositeDisposable.Add(dataContext.WhenChanged(fromProperty).Subscribe(x => text.text = x.ToString()));
         }
 
-        protected void Binding<TFrom, TTarget>(Expression<Func<T, IRxCollection<TFrom>>> fromProperty, RxSpriteMgrBehaviour<TFrom, TTarget> spriteMgr)
-            where TFrom : class, INotifyPropertyChanged
+        protected void Binding<TProperty>(Expression<Func<T, TProperty>> fromProperty, Action<TProperty> action)
         {
-            if (_compositeDisposable == null)
-            {
-                _compositeDisposable = new CompositeDisposable();
-            }
-
-            _compositeDisposable.Add(dataContext.WhenChanged(fromProperty).Subscribe(x => text.text = x.ToString()));
+            _compositeDisposable.Add(dataContext.WhenChanged(fromProperty).Subscribe(x => action(x)));
         }
 
         protected void DisposeBinding()
@@ -62,10 +68,5 @@ namespace RxPropertyChanged
         {
             DisposeBinding();
         }
-    }
-
-    public class RxSpriteMgrBehaviour<TData, TSprite> : MonoBehaviour
-    {
-
     }
 }

@@ -936,6 +936,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324405095}
   m_CullTransparentMesh: 1
+--- !u!1 &383952199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 383952201}
+  - component: {fileID: 383952200}
+  m_Layer: 0
+  m_Name: BuildingSpriteMgr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &383952200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383952199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebd6e192ab3e5a4c88795c27df8ffe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritePrototype: {fileID: -7527348367860892860, guid: 78d3a666b7fe80144a126172373ef8da, type: 3}
+--- !u!4 &383952201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383952199}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &433135955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,7 +1446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3335,6 +3380,7 @@ MonoBehaviour:
   tilemap: {fileID: 1931274823}
   tileset: {fileID: 11400000, guid: 4f8271708d59f0747887bdc5caeff9b3, type: 2}
   buildingTop: {fileID: 92020262}
+  buildingSpriteMgr: {fileID: 383952200}
   center: {fileID: 1801088837}
   buildingForm: {fileID: 2549445725743908433, guid: fc7c6ea4324932c4da31702362822518, type: 3}
 --- !u!4 &1392171461

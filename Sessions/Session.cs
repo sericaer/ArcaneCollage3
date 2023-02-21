@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mods.Defines;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,9 +43,10 @@ namespace Sessions
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IBuilding AddBuilding()
+        public IBuilding AddBuilding(BuildingDefine def, (float x, float y, float z) pos)
         {
-            var building = new Building();
+            var building = new Building(def, pos);
+
             building.name = DateTime.Now.ToString();
 
             items.Add(building);
@@ -83,13 +85,25 @@ namespace Sessions
     public class Building : IBuilding
     {
         public string name { get; set; }
+        public string image { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public BuildingDefine def { get; }
+
+        public (float x, float y, float z) pos { get; }
+        public Building(BuildingDefine def, (float x, float y, float z) pos)
+        {
+            this.def = def;
+            this.pos = pos;
+
+            image = def.image;
+        }
     }
 
     public interface IBuildingMgr : IRxCollection<IBuilding>
     {
-        IBuilding AddBuilding();
+        IBuilding AddBuilding(BuildingDefine def, (float x, float y, float z) pos);
         void RemoveBuilding(IBuilding building);
     }
 
@@ -106,5 +120,10 @@ namespace Sessions
     public interface IBuilding : INotifyPropertyChanged
     {
         string name { get; }
+
+        string image { get; }
+        BuildingDefine def { get; }
+
+        (float x, float y, float z) pos { get; }
     }
 }

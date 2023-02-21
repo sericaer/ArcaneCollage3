@@ -50,7 +50,7 @@ namespace GMEngine
 
         private Dictionary<string, Type> GernerateScriptType()
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name == "Assembly-CSharp");
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name == "Mods");
             var defineTypes = assembly.GetTypes().Where(x => typeof(IDefine).IsAssignableFrom(x));
             return defineTypes.ToDictionary(t => t.GetCustomAttribute<DefineProperty>().scriptPath, t => t);
         }

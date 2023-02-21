@@ -10,6 +10,7 @@
       "Sessions/1.0.0": {
         "dependencies": {
           "DynamicData": "7.12.11",
+          "Mods": "1.0.0",
           "NETStandard.Library": "2.0.3",
           "PropertyChanged.Fody": "3.4.1"
         },
@@ -29,11 +30,27 @@
         }
       },
       "Fody/6.6.2": {},
+      "Hjson/3.0.0": {
+        "runtime": {
+          "lib/netstandard1.3/Hjson.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      },
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "Newtonsoft.Json/13.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.2.27524"
+          }
         }
       },
       "PropertyChanged.Fody/3.4.1": {
@@ -88,6 +105,23 @@
             "fileVersion": "4.6.28619.1"
           }
         }
+      },
+      "GMEngine/1.0.0": {
+        "dependencies": {
+          "Hjson": "3.0.0",
+          "Newtonsoft.Json": "13.0.2"
+        },
+        "runtime": {
+          "GMEngine.dll": {}
+        }
+      },
+      "Mods/1.0.0": {
+        "dependencies": {
+          "GMEngine": "1.0.0"
+        },
+        "runtime": {
+          "Mods.dll": {}
+        }
       }
     }
   },
@@ -111,6 +145,13 @@
       "path": "fody/6.6.2",
       "hashPath": "fody.6.6.2.nupkg.sha512"
     },
+    "Hjson/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4rcPlG9REnY5aXPoOoWoa4l3cABuP6zlA0qz5wJ1f3vZwgzIJCdoYv/UDkDq9nl5QdesOkNovbv3uf5acneNBw==",
+      "path": "hjson/3.0.0",
+      "hashPath": "hjson.3.0.0.nupkg.sha512"
+    },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
       "serviceable": true,
@@ -131,6 +172,13 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
+      "path": "newtonsoft.json/13.0.2",
+      "hashPath": "newtonsoft.json.13.0.2.nupkg.sha512"
     },
     "PropertyChanged.Fody/3.4.1": {
       "type": "package",
@@ -173,6 +221,16 @@
       "sha512": "sha512-zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
       "path": "system.threading.tasks.extensions/4.5.4",
       "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    },
+    "GMEngine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Mods/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
