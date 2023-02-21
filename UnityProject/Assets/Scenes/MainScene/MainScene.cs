@@ -16,8 +16,10 @@ public class MainScene : RxBehaviour<ISession>
     public CashTop cashTop;
 
     public BuildingSpriteMgr buildingSpriteMgr;
-    public ConstructCmdContainer constructCmdContainer;
     public ConstructPlanSpriteMgr constructPlanSpriteMgr;
+    public PersonSpriteMgr personSpriteMgr;
+
+    public ConstructCmdContainer constructCmdContainer;
 
     public ViewBox center;
 
@@ -33,6 +35,10 @@ public class MainScene : RxBehaviour<ISession>
         Binding(dataContext => dataContext.buildings.count, buildingTop.buildingCount);
         Binding(dataContext => dataContext.cashMgr.current, cashTop.current);
         Binding(dataContext => dataContext.constructPlan, (plan) => constructPlanSpriteMgr.StartPlan(plan));
+
+        buildingSpriteMgr.itemSource = dataContext.buildings;
+        constructCmdContainer.itemSource = dataContext.constructCommands;
+        personSpriteMgr.itemSource = dataContext.persons;
     }
 
     void Start()
@@ -42,9 +48,6 @@ public class MainScene : RxBehaviour<ISession>
         dataContext = new Session(StreamingResources.mods);
 
         dataContext.cashMgr.current = 100;
-
-        buildingSpriteMgr.itemSource = dataContext.buildings;
-        constructCmdContainer.itemSource = dataContext.constructCommands;
 
         buildingTop.button.onClick.AddListener(() =>
         {

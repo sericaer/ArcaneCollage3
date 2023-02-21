@@ -14,12 +14,22 @@ namespace Sessions
     {
         IBuildingMgr buildings { get; }
         ICommandMgr constructCommands { get; }
-
+        IPersonMgr persons { get; }
         ICashMgr cashMgr { get; }
-
         IBuilding CreateBuilding(IConstructPlan def, (float x, float y, float z) pos);
 
         IConstructPlan constructPlan { get; }
+    }
+
+    public interface IPersonMgr : IRxCollection<IPerson>
+    {
+        void AddPerson(IPerson person);
+        void RemovePerson(IPerson person);
+    }
+
+    public interface IPerson : INotifyPropertyChanged
+    {
+        (float x, float y) pos { get; set; }
     }
 
     public interface IConstructPlan : INotifyPropertyChanged
@@ -119,6 +129,8 @@ namespace Sessions
 
         public IConstructPlan constructPlan { get; set; }
 
+        public IPersonMgr persons { get; } = new PersonMgr();
+
         public IBuilding CreateBuilding(IConstructPlan plan, (float x, float y, float z) pos)
         {
             var resource = plan.def.constructionCost.SingleOrDefault(x => x.type == ResourceType.Cash);
@@ -133,6 +145,57 @@ namespace Sessions
         public Session(GMEngine.Mods mods)
         {
             constructCommands = new ConstructCommandMgr(mods.GetDefines<BuildingDefine>(), this);
+
+            for(int i=0; i<10; i++)
+            {
+                persons.AddPerson(new Person());
+            }
+        }
+    }
+
+    internal class Person : IPerson
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public (float x, float y) pos { get; set; }
+
+    }
+
+    internal class PersonMgr : IPersonMgr
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private List<IPerson> persons = new List<IPerson>();
+
+        private readonly Subject<IPerson> _OnAddItem = new Subject<IPerson>();
+        private readonly Subject<IPerson> _OnRemoveItem = new Subject<IPerson>();
+
+        public int count { get; set; }
+
+        public IObservable<IPerson> OnAddItem => _OnAddItem;
+        public IObservable<IPerson> OnRemoveItem => _OnRemoveItem;
+
+        public IEnumerator<IPerson> GetEnumerator()
+        {
+            return ((IEnumerable<IPerson>)persons).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)persons).GetEnumerator();
+        }
+
+        public void AddPerson(IPerson person)
+        {
+            persons.Add(person);
+            _OnAddItem.OnNext(person);
+            count = persons.Count;
+        }
+
+        public void RemovePerson(IPerson person)
+        {
+            persons.Remove(person);
+            _OnRemoveItem.OnNext(person);
+            count = persons.Count;
         }
     }
 
