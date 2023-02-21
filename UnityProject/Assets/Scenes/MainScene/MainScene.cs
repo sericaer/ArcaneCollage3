@@ -10,6 +10,7 @@ public class MainScene : RxBehaviour<ISession>
     public TileBase tileset;
 
     public BuildingTop buildingTop;
+    public CashTop cashTop;
 
     public BuildingSpriteMgr buildingSpriteMgr;
     
@@ -19,18 +20,20 @@ public class MainScene : RxBehaviour<ISession>
 
     public void OnCreateBuilding(BuildingDefine def, Vector3 pos)
     {
-        dataContext.buildings.AddBuilding(def, (pos.x, pos.y, pos.z));
+        dataContext.CreateBuilding(def, (pos.x, pos.y, pos.z));
     }
 
     protected override void BindingInit()
     {
         Binding(dataContext => dataContext.buildings.count, buildingTop.buildingCount);
+        Binding(dataContext => dataContext.cashMgr.current, cashTop.current);
     }
 
     void Start()
     {
         dataContext = new Session();
 
+        dataContext.cashMgr.current = 100;
         buildingSpriteMgr.itemSource = dataContext.buildings;
 
         buildingTop.button.onClick.AddListener(() =>

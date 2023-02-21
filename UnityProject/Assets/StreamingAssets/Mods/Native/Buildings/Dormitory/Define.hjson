@@ -3,7 +3,11 @@
     { 
         type : stone 
         value : 30 
-    } ]
+    }
+    { 
+        type : cash 
+        value : 30 
+    }  ]
     
     maintenance_cost: [ 
     { 

@@ -24,13 +24,14 @@ namespace Mods.Defines
     public class ResourceCost
     {
         public ResourceType type;
-        public double value;
+        public float value;
     }
 
     [JsonConverter(typeof(SafeStringEnumConverter), Unknown)]
     public enum ResourceType
     {
         Unknown,
+        Cash,
         Stone,
         Crystal,
     }

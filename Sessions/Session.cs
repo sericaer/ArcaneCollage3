@@ -12,17 +12,35 @@ namespace Sessions
     public interface ISession : INotifyPropertyChanged
     {
         IBuildingMgr buildings { get; }
+        ICashMgr cashMgr { get; }
 
-        int a { get; set; }
+        IBuilding CreateBuilding(BuildingDefine def, (float x, float y, float z) pos);
     }
 
 
     public class Session : ISession
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public IBuildingMgr buildings { get; } = new BuildingMgr();
 
-        public int a { get; set; }
+        public ICashMgr cashMgr { get; } = new CashMgr();
 
+        public IBuilding CreateBuilding(BuildingDefine def, (float x, float y, float z) pos)
+        {
+            var resource = def.constructionCost.SingleOrDefault(x => x.type == ResourceType.Cash);
+            if(resource != null)
+            {
+                cashMgr.current -= resource.value;
+            }
+            
+            return buildings.AddBuilding(def, pos);
+        }
+    }
+
+    internal class CashMgr : ICashMgr
+    {
+        public float current { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
@@ -125,5 +143,10 @@ namespace Sessions
         BuildingDefine def { get; }
 
         (float x, float y, float z) pos { get; }
+    }
+
+    public interface ICashMgr : INotifyPropertyChanged
+    {
+        float current { get; set; }
     }
 }
