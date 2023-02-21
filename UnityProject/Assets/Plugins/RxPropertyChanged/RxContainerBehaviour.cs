@@ -61,7 +61,7 @@ namespace RxPropertyChanged
 
         private void AddTargerItem(TDataSource dataSource)
         {
-            var sprite = Instantiate(defaultItem, this.transform);
+            var sprite = Instantiate(defaultItem, defaultItem.transform.parent);
             sprite.dataContext = dataSource;
             sprite.gameObject.SetActive(true);
 
