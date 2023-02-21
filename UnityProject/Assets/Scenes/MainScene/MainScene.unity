@@ -244,7 +244,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 76182637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f23ebd61da3c1d14abbb110402b3a3b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6dbf9a3e9959618458e9964275f9f88e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CreateBuilding:
@@ -263,7 +263,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   tilemap: {fileID: 1931274823}
-  planPrototype: {fileID: 2208183423006390721, guid: 9f52032db99ad814bae66209949bf6bb, type: 3}
+  planPrototype: {fileID: 7487435379948647820, guid: 9f52032db99ad814bae66209949bf6bb, type: 3}
 --- !u!1 &92020257
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebd6e192ab3e5a4c88795c27df8ffe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spritePrototype: {fileID: -7527348367860892860, guid: 78d3a666b7fe80144a126172373ef8da, type: 3}
+  defaultItem: {fileID: -7527348367860892860, guid: 78d3a666b7fe80144a126172373ef8da, type: 3}
 --- !u!4 &383952201
 Transform:
   m_ObjectHideFlags: 0
@@ -1784,25 +1784,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 571605779}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf3502336950c34abfd8f5a32125e2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 901fbfbd0c5ec374cb1fb3417ea8c2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPlan:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 76182639}
-        m_TargetAssemblyTypeName: BuildingPlanMgr, Assembly-CSharp
-        m_MethodName: OnStartPlan
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  defaultItem: {fileID: 915500189}
+  defaultItem: {fileID: 915500192}
 --- !u!1 &585419467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2501,6 +2486,7 @@ GameObject:
   - component: {fileID: 915500191}
   - component: {fileID: 915500190}
   - component: {fileID: 915500189}
+  - component: {fileID: 915500192}
   m_Layer: 5
   m_Name: DefaultItem
   m_TagString: Untagged
@@ -2611,6 +2597,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915500187}
   m_CullTransparentMesh: 1
+--- !u!114 &915500192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915500187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 279cab191fcd44849a7fedd16c20f211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: {fileID: 148924433}
+  button: {fileID: 915500189}
 --- !u!1 &963676170
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,6 +3382,8 @@ MonoBehaviour:
   buildingTop: {fileID: 92020262}
   cashTop: {fileID: 2059443482}
   buildingSpriteMgr: {fileID: 383952200}
+  constructCmdContainer: {fileID: 571605785}
+  constructPlanSpriteMgr: {fileID: 76182639}
   center: {fileID: 1801088837}
   buildingForm: {fileID: 2549445725743908433, guid: fc7c6ea4324932c4da31702362822518, type: 3}
 --- !u!4 &1392171461

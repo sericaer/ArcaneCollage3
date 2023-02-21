@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace RxPropertyChanged
 {
-    public class RxSpriteMgrBehaviour<TData, TSprite> : MonoBehaviour
-        where TData : class, INotifyPropertyChanged
-        where TSprite : RxBehaviour<TData>
+    public class RxContainerBehaviour<TDataSource, TTargetItem> : MonoBehaviour
+        where TDataSource : class, INotifyPropertyChanged
+        where TTargetItem : RxBehaviour<TDataSource>
     {
-        public TSprite spritePrototype;
+        public TTargetItem defaultItem;
 
-        public IRxCollection<TData> itemSource
+        public IRxCollection<TDataSource> itemSource
         {
             get
             {
@@ -32,9 +32,9 @@ namespace RxPropertyChanged
 
                 _itemSource = value;
 
-                _compositeDisposable.Add(_itemSource.OnAddItem.Subscribe(item=>AddSprite(item)));
+                _compositeDisposable.Add(_itemSource.OnAddItem.Subscribe(item=>AddTargerItem(item)));
 
-                _compositeDisposable.Add(_itemSource.OnRemoveItem.Subscribe(item => RemoveSprite(item)));
+                _compositeDisposable.Add(_itemSource.OnRemoveItem.Subscribe(item => RemoveData(item)));
 
 
                 foreach (var sprite in sprites)
@@ -46,12 +46,12 @@ namespace RxPropertyChanged
 
                 foreach (var item in itemSource)
                 {
-                    AddSprite(item);
+                    AddTargerItem(item);
                 }
             }
         }
 
-        private void RemoveSprite(TData dataSource)
+        private void RemoveData(TDataSource dataSource)
         {
             var sprite = sprites.Single(s => s.dataContext == dataSource);
             sprites.Remove(sprite);
@@ -59,19 +59,20 @@ namespace RxPropertyChanged
             Destroy(sprite.gameObject);
         }
 
-        private void AddSprite(TData dataSource)
+        private void AddTargerItem(TDataSource dataSource)
         {
-            var sprite = Instantiate(spritePrototype, this.transform);
+            var sprite = Instantiate(defaultItem, this.transform);
             sprite.dataContext = dataSource;
+            sprite.gameObject.SetActive(true);
 
             sprites.Add(sprite);
         }
 
-        private IRxCollection<TData> _itemSource;
+        private IRxCollection<TDataSource> _itemSource;
 
         private CompositeDisposable _compositeDisposable;
 
-        private List<TSprite> sprites { get; } = new List<TSprite>();
+        private List<TTargetItem> sprites { get; } = new List<TTargetItem>();
 
         protected void DisposeBinding()
         {
@@ -82,6 +83,11 @@ namespace RxPropertyChanged
         protected virtual void OnDestroy()
         {
             DisposeBinding();
+        }
+
+        private void Start()
+        {
+            defaultItem.gameObject.SetActive(false);
         }
     }
 }

@@ -1,7 +1,10 @@
+using GMEngine;
 using Mods.Defines;
 using RxPropertyChanged;
 using Sessions;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class MainScene : RxBehaviour<ISession>
@@ -13,28 +16,35 @@ public class MainScene : RxBehaviour<ISession>
     public CashTop cashTop;
 
     public BuildingSpriteMgr buildingSpriteMgr;
-    
+    public ConstructCmdContainer constructCmdContainer;
+    public ConstructPlanSpriteMgr constructPlanSpriteMgr;
+
     public ViewBox center;
 
     public BuildingForm buildingForm;
 
-    public void OnCreateBuilding(BuildingDefine def, Vector3 pos)
+    public void OnCreateBuilding(IConstructPlan plan, Vector3 pos)
     {
-        dataContext.CreateBuilding(def, (pos.x, pos.y, pos.z));
+        dataContext.CreateBuilding(plan, (pos.x, pos.y, pos.z));
     }
 
     protected override void BindingInit()
     {
         Binding(dataContext => dataContext.buildings.count, buildingTop.buildingCount);
         Binding(dataContext => dataContext.cashMgr.current, cashTop.current);
+        Binding(dataContext => dataContext.constructPlan, (plan) => constructPlanSpriteMgr.StartPlan(plan));
     }
 
     void Start()
     {
-        dataContext = new Session();
+        StreamingResources.Load();
+
+        dataContext = new Session(StreamingResources.mods);
 
         dataContext.cashMgr.current = 100;
+
         buildingSpriteMgr.itemSource = dataContext.buildings;
+        constructCmdContainer.itemSource = dataContext.constructCommands;
 
         buildingTop.button.onClick.AddListener(() =>
         {

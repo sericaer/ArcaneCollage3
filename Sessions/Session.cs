@@ -1,4 +1,5 @@
-﻿using Mods.Defines;
+﻿using GMEngine;
+using Mods.Defines;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +13,99 @@ namespace Sessions
     public interface ISession : INotifyPropertyChanged
     {
         IBuildingMgr buildings { get; }
+        ICommandMgr constructCommands { get; }
+
         ICashMgr cashMgr { get; }
 
-        IBuilding CreateBuilding(BuildingDefine def, (float x, float y, float z) pos);
+        IBuilding CreateBuilding(IConstructPlan def, (float x, float y, float z) pos);
+
+        IConstructPlan constructPlan { get; }
     }
 
+    public interface IConstructPlan : INotifyPropertyChanged
+    {
+        string image { get; }
+
+        BuildingDefine def { get; }
+    }
+
+    public interface ICommand : INotifyPropertyChanged
+    {
+        string title { get; set; }
+
+        Action Exec { get; set; }
+        Func<bool> isVaild { get; set; }
+    }
+
+    public interface ICommandMgr : IRxCollection<ICommand>
+    {
+
+    }
+
+    public class Command : ICommand
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string title { get; set; }
+
+        public Action Exec { get; set; }
+
+        public Func<bool> isVaild { get; set; }
+    }
+
+    public class ConstructPlan : IConstructPlan
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public string image => def.image;
+
+        public BuildingDefine def { get; }
+        public ConstructPlan(BuildingDefine def)
+        {
+            this.def = def;
+        }
+    }
+
+    public class ConstructCommandMgr : ICommandMgr
+    {
+        private List<ICommand> commands;
+
+        private readonly Subject<ICommand> _OnAddItem = new Subject<ICommand>();
+        private readonly Subject<ICommand> _OnRemoveItem = new Subject<ICommand>();
+
+        public ConstructCommandMgr(IEnumerable<BuildingDefine> defines, Session session)
+        {
+            commands = defines.Select(def =>
+            {
+                ICommand cmd = new Command()
+                {
+                    title = def.name,
+                    isVaild = () => true,
+                    Exec = ()=> session.constructPlan = new ConstructPlan(def)
+                };
+                return cmd;
+            }).ToList();
+
+            count = commands.Count();
+        }
+
+        public int count { get; set; }
+
+        public IObservable<ICommand> OnAddItem => _OnAddItem;
+
+        public IObservable<ICommand> OnRemoveItem => _OnRemoveItem;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public IEnumerator<ICommand> GetEnumerator()
+        {
+            return ((IEnumerable<ICommand>)commands).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)commands).GetEnumerator();
+        }
+    }
 
     public class Session : ISession
     {
@@ -26,15 +115,24 @@ namespace Sessions
 
         public ICashMgr cashMgr { get; } = new CashMgr();
 
-        public IBuilding CreateBuilding(BuildingDefine def, (float x, float y, float z) pos)
+        public ICommandMgr constructCommands { get; }
+
+        public IConstructPlan constructPlan { get; set; }
+
+        public IBuilding CreateBuilding(IConstructPlan plan, (float x, float y, float z) pos)
         {
-            var resource = def.constructionCost.SingleOrDefault(x => x.type == ResourceType.Cash);
+            var resource = plan.def.constructionCost.SingleOrDefault(x => x.type == ResourceType.Cash);
             if(resource != null)
             {
                 cashMgr.current -= resource.value;
             }
             
-            return buildings.AddBuilding(def, pos);
+            return buildings.AddBuilding(plan.def, pos);
+        }
+
+        public Session(GMEngine.Mods mods)
+        {
+            constructCommands = new ConstructCommandMgr(mods.GetDefines<BuildingDefine>(), this);
         }
     }
 
@@ -102,10 +200,10 @@ namespace Sessions
 
     public class Building : IBuilding
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public string name { get; set; }
         public string image { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public BuildingDefine def { get; }
 

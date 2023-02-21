@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2208183423006390720}
   - component: {fileID: 2208183423006391871}
   - component: {fileID: 2208183423006390722}
-  - component: {fileID: 2208183423006390721}
+  - component: {fileID: 7487435379948647820}
   m_Layer: 6
   m_Name: BuildingPlan
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!61 &2208183423006390722
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
---- !u!114 &2208183423006390721
+--- !u!114 &7487435379948647820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,12 +121,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2208183423006391870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d3bbaa780afe2741971931357f90e9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e9138c720bd05a488f408386cb14f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingPrototype: {fileID: -7527348367860892860, guid: 78d3a666b7fe80144a126172373ef8da, type: 3}
   tilemap: {fileID: 0}
-  confirmLocalEvent:
+  StartBuilding:
     m_PersistentCalls:
       m_Calls: []
-  sprite: {fileID: 21300000, guid: 47c5dffa69fd29040ba780dc8dd739e8, type: 3}

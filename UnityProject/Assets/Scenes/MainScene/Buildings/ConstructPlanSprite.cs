@@ -1,36 +1,28 @@
-using Mods.Defines;
-using System.Collections;
+﻿using Mods.Defines;
+using RxPropertyChanged;
+using Sessions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class BuildingPlan : MonoBehaviour
+public class ConstructPlanSprite : RxBehaviour<IConstructPlan>
 {
-    public Building buildingPrototype;
-
     public Tilemap tilemap;
 
-    public UnityEvent<BuildingDefine, Vector3> StartBuilding;
+    public UnityEvent<Vector3> StartBuilding;
 
-    public BuildingDefine def
+    protected override void BindingInit()
     {
-        get
+        Binding(dataContext => dataContext.image, (image) =>
         {
-            return _def;
-        }
-        set
-        {
-            _def = value;
-
-
-            var sprite = StreamingResources.sprites[def.image];
+            var sprite = StreamingResources.sprites[image];
             GetComponent<SpriteRenderer>().sprite = sprite;
 
             var boxCollider2D = GetComponent<BoxCollider2D>();
             boxCollider2D.size = sprite.bounds.size;
             boxCollider2D.offset = boxCollider2D.size / 2;
-        }
+        });
     }
 
     public bool isLegal
@@ -44,8 +36,6 @@ public class BuildingPlan : MonoBehaviour
             GetComponent<SpriteRenderer>().color = value ? Color.green : Color.red;
         }
     }
-
-    private BuildingDefine _def;
 
     // Start is called before the first frame update
     void Start()
@@ -72,7 +62,7 @@ public class BuildingPlan : MonoBehaviour
     {
         var fliter = new ContactFilter2D();
         fliter.useTriggers = true;
-        fliter.SetLayerMask(1<<LayerMask.NameToLayer("Buildings"));
+        fliter.SetLayerMask(1 << LayerMask.NameToLayer("Buildings"));
 
         var list = new List<Collider2D>();
         var count = GetComponent<BoxCollider2D>().OverlapCollider(fliter, list);
@@ -85,9 +75,10 @@ public class BuildingPlan : MonoBehaviour
         {
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            StartBuilding.Invoke(def, new Vector3(pos.x, pos.y, 0));
+            StartBuilding.Invoke(new Vector3(pos.x, pos.y, 0));
 
             Destroy(gameObject);
         }
     }
 }
+
