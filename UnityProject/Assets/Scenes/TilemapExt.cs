@@ -10,7 +10,7 @@ public static class TilemapExt
             if (_tile == null)
             {
                 _tile = ScriptableObject.CreateInstance<Tile>();
-                _tile.sprite = Sprite.Create(new Texture2D(1, 1), new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f), 1);
+                _tile.sprite = Sprite.Create(new Texture2D(1, 1), new Rect(0, 0, 0.5f, 0.5f), new Vector2(0.5f, 0.5f), 1);
             }
 
             return _tile;

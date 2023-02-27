@@ -14,11 +14,19 @@ namespace Mods.Defines
         public string key => path;
         public string image => path.Replace("Define.hjson", "Image.png");
 
+        public Size size { get; set; }
+
         [JsonProperty("construction_cost")]
         public ResourceCost[] constructionCost;
 
         [JsonProperty("maintenance_cost")]
         public ResourceCost[] maintenanceCost;
+
+        public class Size
+        {
+            public int x;
+            public int y;
+        }
     }
 
     public class ResourceCost

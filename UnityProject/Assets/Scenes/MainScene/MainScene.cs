@@ -16,7 +16,7 @@ public class MainScene : RxBehaviour<ISession>
     public CashTop cashTop;
 
     public BuildingSpriteMgr buildingSpriteMgr;
-    public ConstructPlanSpriteMgr constructPlanSpriteMgr;
+    public ConstructPlanSpriteMgr2 constructPlanSpriteMgr;
     public PersonSpriteMgr personSpriteMgr;
 
     public ConstructCmdContainer constructCmdContainer;
@@ -25,7 +25,7 @@ public class MainScene : RxBehaviour<ISession>
 
     public BuildingForm buildingForm;
 
-    public void OnCreateBuilding(IConstructPlan plan, Vector3 pos)
+    public void OnCreateBuilding(IConstructPlan plan, Vector3Int pos)
     {
         dataContext.CreateBuilding(plan, (pos.x, pos.y, pos.z));
     }
@@ -55,13 +55,13 @@ public class MainScene : RxBehaviour<ISession>
             form.SetItemSource(dataContext?.buildings);
         });
 
-        for (int i=-50; i<=50; i++)
-        {
-            for(int j=-50; j<=50; j++)
-            {
-                tilemap.SetTile(new Vector3Int(i, j), tileset);
-            }
-        }
+        //for (int i=-50; i<=50; i++)
+        //{
+        //    for(int j=-50; j<=50; j++)
+        //    {
+        //        tilemap.SetTile(new Vector3Int(i, j), tileset);
+        //    }
+        //}
     }
 
     // Update is called once per frame

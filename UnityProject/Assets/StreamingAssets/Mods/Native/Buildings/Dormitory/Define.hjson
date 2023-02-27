@@ -1,4 +1,8 @@
 {
+    size:{
+        x:6
+        y:6
+    }
     construction_cost: [ 
     { 
         type : stone 

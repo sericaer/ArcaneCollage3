@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Building :  RxBehaviour<Sessions.IBuilding>
 {
+    public Tilemap tilemap;
+
     void OnMouseDown()
     {
         Debug.Log("Sprite Clicked");
@@ -14,7 +16,15 @@ public class Building :  RxBehaviour<Sessions.IBuilding>
     {
         Binding(dataContext => dataContext.pos, (pos) =>
         {
-            transform.position = new Vector3(pos.x, pos.y, pos.z);
+            transform.position = tilemap.CellToWorld(new Vector3Int(pos.x, pos.y, pos.z));
+
+            for (int i = -1; i <= dataContext.def.size.x; i++)
+            {
+                for (int j = -1; j <= dataContext.def.size.y; j++)
+                {
+                    tilemap.SetTileColor(new Vector3Int(pos.x + i, pos.y + j), Color.gray);
+                }
+            }
         });
 
         Binding(dataContext => dataContext.image, (image) =>
@@ -22,9 +32,9 @@ public class Building :  RxBehaviour<Sessions.IBuilding>
             var sprite = StreamingResources.sprites[image];
             GetComponent<SpriteRenderer>().sprite = sprite;
 
-            var boxCollider2D = GetComponent<BoxCollider2D>();
-            boxCollider2D.size = sprite.bounds.size;
-            boxCollider2D.offset = boxCollider2D.size / 2;
+            //var boxCollider2D = GetComponent<BoxCollider2D>();
+            //boxCollider2D.size = sprite.bounds.size;
+            //boxCollider2D.offset = boxCollider2D.size / 2;
         });
     }
 }

@@ -6,13 +6,13 @@ using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class BuildingPlanSprite : MonoBehaviour
+public class BuildingPlanRender : MonoBehaviour
 {
     public Tilemap tilemap;
-    public UnityEvent<Vector3Int> StartBuilding;
-
     public int x;
     public int y;
+
+    public UnityEvent<Vector3Int> StartBuilding;
 
     public Func<bool> IsOverlapBuilding;
 

@@ -28,10 +28,10 @@ public class ConstructPlanSpriteMgr : MonoBehaviour
         }
 
         currPlan = Instantiate<ConstructPlanSprite>(planPrototype, this.transform);
-        currPlan.tilemap = tilemap;
+        //currPlan.tilemap = tilemap;
         currPlan.dataContext = dataSource;
 
-        currPlan.StartBuilding.AddListener((pos) => CreateBuilding.Invoke(dataSource, pos));
+        //currPlan.StartBuilding.AddListener((pos) => CreateBuilding.Invoke(dataSource, pos));
     }
 }
 

@@ -5,7 +5,7 @@ public class BuildingManager : MonoBehaviour
 {
     public Tilemap tilemap;
 
-    public BuildingPlanSprite defaultPlan;
+    public BuildingPlanRender defaultPlan;
     public SpriteRenderer defaultBuilding;
 
     public void DefaultStartBuilding(Vector3Int pos)
