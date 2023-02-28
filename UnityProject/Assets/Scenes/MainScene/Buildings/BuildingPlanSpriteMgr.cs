@@ -2,13 +2,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ConstructPlanSpriteMgr2 : MonoBehaviour
+public class BuildingPlanSpriteMgr : MonoBehaviour
 {
-
-    public ConstructPlanSprite plan;
-
+    public BuildingPlanSprite plan;
     public UnityEvent<IConstructPlan, Vector3Int> CreateBuilding;
-
 
     public void StartPlan(IConstructPlan dataSource)
     {

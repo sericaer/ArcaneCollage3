@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class ConstructPlanSprite : RxBehaviour<IConstructPlan>
+public class BuildingPlanSprite : RxBehaviour<IConstructPlan>
 {
     protected override void BindingInit()
     {
@@ -15,9 +15,8 @@ public class ConstructPlanSprite : RxBehaviour<IConstructPlan>
             var sprite = StreamingResources.sprites[image];
             GetComponent<SpriteRenderer>().sprite = sprite;
 
-            var boxCollider2D = GetComponent<BoxCollider2D>();
-            boxCollider2D.size = sprite.bounds.size;
-            boxCollider2D.offset = boxCollider2D.size / 2;
+            GetComponent<BuildingPlanRender>().x = dataContext.def.size.x;
+            GetComponent<BuildingPlanRender>().y = dataContext.def.size.y;
         });
     }
 }

@@ -3,7 +3,7 @@ using RxPropertyChanged;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Building :  RxBehaviour<Sessions.IBuilding>
+public class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
 {
     public Tilemap tilemap;
 
@@ -31,10 +31,6 @@ public class Building :  RxBehaviour<Sessions.IBuilding>
         {
             var sprite = StreamingResources.sprites[image];
             GetComponent<SpriteRenderer>().sprite = sprite;
-
-            //var boxCollider2D = GetComponent<BoxCollider2D>();
-            //boxCollider2D.size = sprite.bounds.size;
-            //boxCollider2D.offset = boxCollider2D.size / 2;
         });
     }
 }

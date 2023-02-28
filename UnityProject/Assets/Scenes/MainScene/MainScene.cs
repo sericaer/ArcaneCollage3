@@ -16,7 +16,7 @@ public class MainScene : RxBehaviour<ISession>
     public CashTop cashTop;
 
     public BuildingSpriteMgr buildingSpriteMgr;
-    public ConstructPlanSpriteMgr2 constructPlanSpriteMgr;
+    public BuildingPlanSpriteMgr constructPlanSpriteMgr;
     public PersonSpriteMgr personSpriteMgr;
 
     public ConstructCmdContainer constructCmdContainer;
