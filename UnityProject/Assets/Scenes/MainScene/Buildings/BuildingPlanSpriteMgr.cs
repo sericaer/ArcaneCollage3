@@ -2,9 +2,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BuildingPlanSpriteMgr : MonoBehaviour
+class BuildingPlanSpriteMgr : MonoBehaviour
 {
     public BuildingPlanSprite plan;
+    public RoadTilemap roadTilemap;
+
     public UnityEvent<IConstructPlan, Vector3Int> CreateBuilding;
 
     public void StartPlan(IConstructPlan dataSource)
@@ -21,7 +23,14 @@ public class BuildingPlanSpriteMgr : MonoBehaviour
 
     private void Start()
     {
-        plan.GetComponent<BuildingPlanRender>().StartBuilding.AddListener((pos) =>
+        var planRender = plan.GetComponent<BuildingPlanRender>();
+
+        planRender.IsOverlapBuilding = () =>
+        {
+            return planRender.DefaultIsOverlapBuilding() && roadTilemap.HasTile(planRender.cellPos);
+        };
+
+        planRender.StartBuilding.AddListener((pos) =>
         {
             plan.gameObject.SetActive(false);
 

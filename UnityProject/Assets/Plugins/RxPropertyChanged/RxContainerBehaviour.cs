@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RxPropertyChanged
 {
@@ -13,6 +14,8 @@ namespace RxPropertyChanged
         where TTargetItem : RxBehaviour<TDataSource>
     {
         public TTargetItem defaultItem;
+
+        public UnityEvent<TDataSource> OnAddedEvent;
 
         public IRxCollection<TDataSource> itemSource
         {

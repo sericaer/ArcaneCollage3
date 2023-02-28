@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(SpriteRenderer))]
 public class BuildingPlanRender : MonoBehaviour
 {
-    public Tilemap tilemap;
+    public Tilemap spriteTilemap;
     public int x;
     public int y;
 
@@ -24,7 +24,7 @@ public class BuildingPlanRender : MonoBehaviour
         }
     }
 
-    private Vector3Int cellPos
+    public Vector3Int cellPos
     {
         get
         {
@@ -34,7 +34,7 @@ public class BuildingPlanRender : MonoBehaviour
         {
             _cellPos = value;
 
-            var pos = tilemap.CellToWorld(_cellPos);
+            var pos = spriteTilemap.CellToWorld(_cellPos);
 
             transform.position = new Vector3(pos.x, pos.y);
 
@@ -59,6 +59,22 @@ public class BuildingPlanRender : MonoBehaviour
     private Vector3Int _cellPos;
     private bool _isLegal;
 
+    public bool DefaultIsOverlapBuilding()
+    {
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                if (spriteTilemap.HasTile(cellPos + new Vector3Int(i, j)))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,7 +89,7 @@ public class BuildingPlanRender : MonoBehaviour
     {
         if ((Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
         {
-            cellPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            cellPos = spriteTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
     }
 
@@ -85,21 +101,5 @@ public class BuildingPlanRender : MonoBehaviour
         }
 
         StartBuilding.Invoke(cellPos);
-    }
-
-    private bool DefaultIsOverlapBuilding()
-    {
-        for(int i=0; i<x; i++)
-        {
-            for(int j=0; j<y; j++)
-            {
-                if(tilemap.HasTile(cellPos + new Vector3Int(i,j)))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }

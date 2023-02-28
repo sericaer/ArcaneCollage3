@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
 {
-    public Tilemap tilemap;
+    public Grid grid;
 
     void OnMouseDown()
     {
@@ -16,15 +16,7 @@ public class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
     {
         Binding(dataContext => dataContext.pos, (pos) =>
         {
-            transform.position = tilemap.CellToWorld(new Vector3Int(pos.x, pos.y, pos.z));
-
-            for (int i = -1; i <= dataContext.def.size.x; i++)
-            {
-                for (int j = -1; j <= dataContext.def.size.y; j++)
-                {
-                    tilemap.SetTileColor(new Vector3Int(pos.x + i, pos.y + j), Color.gray);
-                }
-            }
+            transform.position = grid.CellToWorld(new Vector3Int(pos.x, pos.y, pos.z));
         });
 
         Binding(dataContext => dataContext.image, (image) =>

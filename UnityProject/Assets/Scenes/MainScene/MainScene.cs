@@ -7,11 +7,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class MainScene : RxBehaviour<ISession>
+class MainScene : RxBehaviour<ISession>
 {
-    public Tilemap tilemap;
-    public TileBase tileset;
-
     public BuildingTop buildingTop;
     public CashTop cashTop;
 
@@ -54,23 +51,11 @@ public class MainScene : RxBehaviour<ISession>
             var form = center.CreateInstance(buildingForm);
             form.SetItemSource(dataContext?.buildings);
         });
-
-        //for (int i=-50; i<=50; i++)
-        //{
-        //    for(int j=-50; j<=50; j++)
-        //    {
-        //        tilemap.SetTile(new Vector3Int(i, j), tileset);
-        //    }
-        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(dataContext != null)
-        //{
-        //    dataContext.buildings.count++;
-        //}
     }
 }
 
