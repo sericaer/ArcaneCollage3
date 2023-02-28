@@ -56,6 +56,6 @@ class BuildingPlanSpriteMgr : MonoBehaviour
     {
         var planRender = plan.GetComponent<BuildingPlanRender>();
 
-        return planRender.GetRing(2).Any(x => buildingTilemap.HasTile(x));
+        return planRender.GetRing(2).Any(x => roadTilemap.HasTile(x));
     }
 }
