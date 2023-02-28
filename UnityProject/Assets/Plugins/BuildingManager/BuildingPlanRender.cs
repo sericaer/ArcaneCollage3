@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -8,13 +7,13 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(SpriteRenderer))]
 public class BuildingPlanRender : MonoBehaviour
 {
-    public Tilemap spriteTilemap;
+    public Grid grid;
     public int x;
     public int y;
 
     public UnityEvent<Vector3Int> StartBuilding;
 
-    public Func<bool> IsOverlapBuilding;
+    public Func<bool> CheckLegeal;
 
     public SpriteRenderer spriteRenderer
     {
@@ -34,11 +33,11 @@ public class BuildingPlanRender : MonoBehaviour
         {
             _cellPos = value;
 
-            var pos = spriteTilemap.CellToWorld(_cellPos);
+            var pos = grid.CellToWorld(_cellPos);
 
             transform.position = new Vector3(pos.x, pos.y);
 
-            isLegal = !IsOverlapBuilding();
+            isLegal = CheckLegeal();
         }
     }
 
@@ -59,28 +58,12 @@ public class BuildingPlanRender : MonoBehaviour
     private Vector3Int _cellPos;
     private bool _isLegal;
 
-    public bool DefaultIsOverlapBuilding()
-    {
-        for (int i = 0; i < x; i++)
-        {
-            for (int j = 0; j < y; j++)
-            {
-                if (spriteTilemap.HasTile(cellPos + new Vector3Int(i, j)))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-        if(IsOverlapBuilding == null)
+        if(CheckLegeal == null)
         {
-            IsOverlapBuilding = DefaultIsOverlapBuilding;
+            CheckLegeal = ()=> true;
         }
     }
 
@@ -89,7 +72,7 @@ public class BuildingPlanRender : MonoBehaviour
     {
         if ((Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
         {
-            cellPos = spriteTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            cellPos = grid.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
     }
 

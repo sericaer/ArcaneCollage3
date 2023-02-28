@@ -1,11 +1,14 @@
 ﻿using Mods.Defines;
 using RxPropertyChanged;
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Maths.Matrix;
 
-public class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
+class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
 {
-    public Grid grid;
+    public RoadTilemap roadTilemap;
+    public Tilemap buildingTileap;
 
     void OnMouseDown()
     {
@@ -16,7 +19,10 @@ public class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
     {
         Binding(dataContext => dataContext.pos, (pos) =>
         {
-            transform.position = grid.CellToWorld(new Vector3Int(pos.x, pos.y, pos.z));
+            transform.position = buildingTileap.CellToWorld(new Vector3Int(pos.x, pos.y));
+
+            AddRoadTileSets(pos);
+            AddBuildingTileSets(pos);
         });
 
         Binding(dataContext => dataContext.image, (image) =>
@@ -24,5 +30,21 @@ public class BuildingSprite :  RxBehaviour<Sessions.IBuilding>
             var sprite = StreamingResources.sprites[image];
             GetComponent<SpriteRenderer>().sprite = sprite;
         });
+    }
+
+    private void AddBuildingTileSets((int x, int y) pos)
+    {
+        foreach(var index in MatrixMethod.Generate(pos, dataContext.def.size.x, dataContext.def.size.y))
+        {
+            buildingTileap.SetTileColor(new Vector3Int(index.x, index.y), Color.red);
+        }
+    }
+
+    private void AddRoadTileSets((int x, int y) pos)
+    {
+        foreach (var index in MatrixMethod.GetRing(pos, 2, dataContext.def.size.x, dataContext.def.size.y))
+        {
+            roadTilemap.SetTile(new Vector3Int(index.x, index.y));
+        }
     }
 }

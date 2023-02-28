@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(BuildingPlanRender))]
 public class BuildingPlanSprite : RxBehaviour<IConstructPlan>
 {
     protected override void BindingInit()

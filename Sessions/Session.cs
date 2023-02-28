@@ -16,7 +16,7 @@ namespace Sessions
         ICommandMgr constructCommands { get; }
         IPersonMgr persons { get; }
         ICashMgr cashMgr { get; }
-        IBuilding CreateBuilding(IConstructPlan def, (int x, int y, int z) pos);
+        IBuilding CreateBuilding(IConstructPlan def, (int x, int y) pos);
 
         IConstructPlan constructPlan { get; }
     }
@@ -35,8 +35,6 @@ namespace Sessions
     public interface IConstructPlan : INotifyPropertyChanged
     {
         string image { get; }
-
-        (int x, int y) size { get; }
         BuildingDefine def { get; }
     }
 
@@ -71,12 +69,9 @@ namespace Sessions
 
         public BuildingDefine def { get; }
 
-        public (int x, int y) size { get; }
-
         public ConstructPlan(BuildingDefine def)
         {
             this.def = def;
-            this.size = def.size;
         }
     }
 
@@ -136,7 +131,7 @@ namespace Sessions
 
         public IPersonMgr persons { get; } = new PersonMgr();
 
-        public IBuilding CreateBuilding(IConstructPlan plan, (int x, int y, int z) pos)
+        public IBuilding CreateBuilding(IConstructPlan plan, (int x, int y) pos)
         {
             var resource = plan.def.constructionCost.SingleOrDefault(x => x.type == ResourceType.Cash);
             if(resource != null)
@@ -227,7 +222,7 @@ namespace Sessions
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IBuilding AddBuilding(BuildingDefine def, (int x, int y, int z) pos)
+        public IBuilding AddBuilding(BuildingDefine def, (int x, int y) pos)
         {
             var building = new Building(def, pos);
 
@@ -275,8 +270,8 @@ namespace Sessions
 
         public BuildingDefine def { get; }
 
-        public (int x, int y, int z) pos { get; }
-        public Building(BuildingDefine def, (int x, int y, int z) pos)
+        public (int x, int y) pos { get; }
+        public Building(BuildingDefine def, (int x, int y) pos)
         {
             this.def = def;
             this.pos = pos;
@@ -287,7 +282,7 @@ namespace Sessions
 
     public interface IBuildingMgr : IRxCollection<IBuilding>
     {
-        IBuilding AddBuilding(BuildingDefine def, (int x, int y, int z) pos);
+        IBuilding AddBuilding(BuildingDefine def, (int x, int y) pos);
         void RemoveBuilding(IBuilding building);
     }
 
@@ -308,7 +303,7 @@ namespace Sessions
         string image { get; }
         BuildingDefine def { get; }
 
-        (int x, int y, int z) pos { get; }
+        (int x, int y) pos { get; }
     }
 
     public interface ICashMgr : INotifyPropertyChanged

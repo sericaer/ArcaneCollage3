@@ -15,7 +15,7 @@ namespace RxPropertyChanged
     {
         public TTargetItem defaultItem;
 
-        public UnityEvent<TDataSource> OnAddedEvent;
+        public UnityEvent<TTargetItem> OnAddedEvent;
 
         public IRxCollection<TDataSource> itemSource
         {

@@ -24,7 +24,7 @@ class MainScene : RxBehaviour<ISession>
 
     public void OnCreateBuilding(IConstructPlan plan, Vector3Int pos)
     {
-        dataContext.CreateBuilding(plan, (pos.x, pos.y, pos.z));
+        dataContext.CreateBuilding(plan, (pos.x, pos.y));
     }
 
     protected override void BindingInit()

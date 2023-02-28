@@ -250,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plan: {fileID: 1303490955}
   roadTilemap: {fileID: 209027055}
+  buildingTilemap: {fileID: 949659051}
   CreateBuilding:
     m_PersistentCalls:
       m_Calls:
@@ -1084,7 +1085,6 @@ MonoBehaviour:
   OnAddedEvent:
     m_PersistentCalls:
       m_Calls: []
-  roadTilemap: {fileID: 0}
 --- !u!4 &383952201
 Transform:
   m_ObjectHideFlags: 0
@@ -2727,7 +2727,7 @@ GameObject:
   - component: {fileID: 949659051}
   - component: {fileID: 949659052}
   m_Layer: 0
-  m_Name: SpriteTilemap
+  m_Name: BuildingTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3622,7 +3622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b974a2834c99e45b8dcea9697bec48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteTilemap: {fileID: 949659051}
+  grid: {fileID: 1462115906}
   x: 0
   y: 0
   StartBuilding:
@@ -4724,7 +4724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e90350e03eddd47bf64934bf8dfa09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 1462115906}
+  roadTilemap: {fileID: 209027055}
+  buildingTileap: {fileID: 949659051}
 --- !u!1 &1801088831
 GameObject:
   m_ObjectHideFlags: 0
