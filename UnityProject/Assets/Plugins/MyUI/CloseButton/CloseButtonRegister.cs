@@ -6,7 +6,7 @@ namespace MyUI
 {
     public static class CloseButtonRegister
     {
-        [MenuItem("GameObject/UI/MyUI/CloseButton")]
+        [MenuItem("GameObject/UI/MyExtentions/CloseButton")]
         public static void AddDialogPanel(MenuCommand menuCommand)
         {
             var parent = menuCommand.context as GameObject;

@@ -27,6 +27,13 @@ class MainScene : RxBehaviour<ISession>
         dataContext.CreateBuilding(plan, (pos.x, pos.y));
     }
 
+    public void OnTimeInc()
+    {
+        Debug.Log("OnTimeInc");
+
+        //dataContext.currTime.hour++;
+    }
+
     protected override void BindingInit()
     {
         Binding(dataContext => dataContext.buildings.count, buildingTop.buildingCount);
