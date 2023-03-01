@@ -12,13 +12,23 @@ namespace Sessions
 {
     public interface ISession : INotifyPropertyChanged
     {
+        IDate date { get; }
         IBuildingMgr buildings { get; }
         ICommandMgr constructCommands { get; }
         IPersonMgr persons { get; }
         ICashMgr cashMgr { get; }
-        IBuilding CreateBuilding(IConstructPlan def, (int x, int y) pos);
-
         IConstructPlan constructPlan { get; }
+
+        IBuilding CreateBuilding(IConstructPlan def, (int x, int y) pos);
+        void HoursInc();
+    }
+
+    public interface IDate : INotifyPropertyChanged
+    {
+        int year { get; }
+        int month { get; }
+        int day { get; }
+        int hour { get; }
     }
 
     public interface IPersonMgr : IRxCollection<IPerson>
@@ -121,6 +131,8 @@ namespace Sessions
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public IDate date { get; } = new Date();
+
         public IBuildingMgr buildings { get; } = new BuildingMgr();
 
         public ICashMgr cashMgr { get; } = new CashMgr();
@@ -150,6 +162,12 @@ namespace Sessions
             {
                 persons.AddPerson(new Person());
             }
+        }
+
+        public void HoursInc()
+        {
+            var dateTime = date as Date;
+            dateTime.hour++;
         }
     }
 
@@ -309,5 +327,96 @@ namespace Sessions
     public interface ICashMgr : INotifyPropertyChanged
     {
         float current { get; set; }
+    }
+
+    public class Date : IDate
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int year
+        {
+            get
+            {
+                return _year;
+            }
+            private set
+            {
+                _year = value;
+            }
+        }
+
+        public int month
+        {
+            get
+            {
+                return _month;
+            }
+            private set
+            {
+                _month = value;
+                if (_month > 4)
+                {
+                    year += 1;
+                    _month = 1;
+                }
+            }
+        }
+
+        public int day
+        {
+            get
+            {
+                return _day;
+            }
+            private set
+            {
+                if (_day == value)
+                {
+                    return;
+                }
+
+                _day = value;
+                if (_day > 30)
+                {
+                    month += 1;
+                    _day = 1;
+                }
+            }
+        }
+
+        public int hour
+        {
+            get
+            {
+                return _hour;
+            }
+            internal set
+            {
+                if (_hour == value)
+                {
+                    return;
+                }
+
+                _hour = value;
+                if (_hour > 24)
+                {
+                    day += 1;
+                    _hour = 0;
+                }
+            }
+        }
+
+        private int _year;
+        private int _month;
+        private int _day;
+        private int _hour;
+
+        public Date()
+        {
+            year = 1;
+            month = 1;
+            day = 1;
+            hour = 7;
+        }
     }
 }

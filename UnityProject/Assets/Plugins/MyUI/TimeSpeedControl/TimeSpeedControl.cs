@@ -71,7 +71,7 @@ public class TimeSpeedControl : MonoBehaviour
 
         currUpdateCount++;
 
-        if(currUpdateCount == speed*100)
+        if(currUpdateCount > 300/speed)
         {
             timeIncEvent?.Invoke();
 

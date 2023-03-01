@@ -11,6 +11,7 @@ class MainScene : RxBehaviour<ISession>
 {
     public BuildingTop buildingTop;
     public CashTop cashTop;
+    public DateTop dateTop;
 
     public BuildingSpriteMgr buildingSpriteMgr;
     public BuildingPlanSpriteMgr constructPlanSpriteMgr;
@@ -31,7 +32,7 @@ class MainScene : RxBehaviour<ISession>
     {
         Debug.Log("OnTimeInc");
 
-        //dataContext.currTime.hour++;
+        dataContext.HoursInc();
     }
 
     protected override void BindingInit()
@@ -40,6 +41,7 @@ class MainScene : RxBehaviour<ISession>
         Binding(dataContext => dataContext.cashMgr.current, cashTop.current);
         Binding(dataContext => dataContext.constructPlan, (plan) => constructPlanSpriteMgr.StartPlan(plan));
 
+        dateTop.dataContext = dataContext.date;
         buildingSpriteMgr.itemSource = dataContext.buildings;
         constructCmdContainer.itemSource = dataContext.constructCommands;
         personSpriteMgr.itemSource = dataContext.persons;
